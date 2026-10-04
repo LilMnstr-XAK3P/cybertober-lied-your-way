@@ -773,12 +773,12 @@ var CONTENT = {
   /* ================= RESOURCE LIBRARY ================= */
   library: [
     { group: "Start here", items: [
+      { t: "★ KnowBe4 CAPY: free lessons for kids and families", d: "Quick online-safety lessons for kids, parents and grown-ups. Most take under 4 minutes. Free, no login needed.", u: "https://www.knowbe4.com/free-cybersecurity-tools/capy", show: "knowbe4.com/free-cybersecurity-tools/capy" },
       { t: "KnowBe4 Cybersecurity Awareness Month Kit", d: "Register free for KnowBe4's Cybersecurity Awareness Month kit: modules, posters, tabletop exercises and learning documents.", u: "https://www.knowbe4.com/resources/kits/cybersecurity-awareness-month", show: "knowbe4.com/resources/kits/cybersecurity-awareness-month" },
       { t: "National Cybersecurity Alliance", d: "Stay Safe Online tips, videos and Cybersecurity Awareness Month resources.", u: "https://www.staysafeonline.org/" },
       { t: "CISA Cyber Hygiene Services", d: "Free vulnerability scanning and web application scanning for eligible organizations.", u: "https://www.cisa.gov/cyber-hygiene-services" },
       { t: "CISA Cybersecurity Awareness Month", d: "This year's toolkit, posters, tip sheets and presentations.", u: "https://www.cisa.gov/cybersecurity-awareness-month" },
-      { t: "Secure Our World", d: "CISA's four essentials: phishing, passwords, MFA and updates.", u: "https://www.cisa.gov/secure-our-world" },
-      { t: "KnowBe4 CAPY", d: "Free bite-sized safety lessons for you and your family. No login needed.", u: "https://www.knowbe4.com/free-cybersecurity-tools/capy", show: "knowbe4.com/free-cybersecurity-tools/capy" }] },
+      { t: "Secure Our World", d: "CISA's four essentials: phishing, passwords, MFA and updates.", u: "https://www.cisa.gov/secure-our-world" } ] },
     { group: "Report it", items: [
       { t: "Report an incident to CISA", d: "Share cyber incident information to protect other organizations.", u: "https://www.cisa.gov/report" },
       { t: "FBI Internet Crime Complaint Center", d: "Report internet crime, online fraud and business email compromise.", u: "https://www.ic3.gov/" },

@@ -116,7 +116,7 @@
       b.dataset.day = day.d;
       var kind = { core: "Lesson", bonus: "Bonus", tabletop: "Team challenge", boss: "Final quest" }[day.kind];
       var st = lock ? "🔒 Oct " + day.d : done ? "✓ Done" : x ? "In progress" : "Start";
-      b.innerHTML = '<span class="d">' + day.d + '</span><span class="kind">' + kind + '</span><span class="t">' + esc(day.title) + '</span><span class="activity-preview">' + esc(activitySummary(day)) + '</span><span class="meta"><span class="xp">' + (x ? x + "/" : "") + max + ' XP</span><span class="state">' + st + '</span></span><span class="bar"><i style="width:' + Math.round(x / max * 100) + '%"></i></span>';
+      b.innerHTML = '<span class="wd" aria-hidden="true">' + new Date(CFG.year, CFG.month, day.d).toLocaleDateString("en-US", { weekday: "short" }) + '</span><span class="d">' + day.d + '</span><span class="kind">' + kind + '</span><span class="t">' + esc(day.title) + '</span><span class="activity-preview">' + esc(activitySummary(day)) + '</span><span class="meta"><span class="xp">' + (x ? x + "/" : "") + max + ' XP</span><span class="state">' + st + '</span></span><span class="bar"><i style="width:' + Math.round(x / max * 100) + '%"></i></span>';
       b.setAttribute("aria-label", new Date(CFG.year, CFG.month, day.d).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }) + ", " + kind + ": " + day.title + ". " + (lock ? "Preview available. Activities unlock October " + day.d : done ? "Complete" : x + " of " + max + " XP"));
       b.onclick = function () { openDay(day); };
       b.hidden = activeFilter === "open" ? lock || done : activeFilter === "done" ? !done : false;
@@ -160,6 +160,7 @@
   var sheet = document.getElementById("sheet"), panel = document.getElementById("panel"), cur = null, lastFocus = null;
   sheet.addEventListener("click", function (e) { if (e.target === sheet) closeDay(); });
   document.addEventListener("keydown", function (e) {
+    if ((e.key === "Enter" || e.key === " ") && e.target.matches && e.target.matches("img[data-zoom]")) { e.preventDefault(); e.target.click(); return; }
     if (e.key === "Tab" && !sheet.hidden && !document.querySelector(".lightbox,.reveal")) {
       var focusable = Array.from(panel.querySelectorAll('button:not(:disabled), a[href], input:not(:disabled), summary, iframe, [tabindex="0"]')).filter(function (el) { return el.getClientRects().length; });
       var first = focusable[0], last = focusable[focusable.length - 1];
@@ -167,12 +168,12 @@
       else if (!e.shiftKey && (document.activeElement === last || !panel.contains(document.activeElement))) { e.preventDefault(); if (first) first.focus(); }
     }
     if (e.key !== "Escape") return;
-    var lb = document.querySelector(".lightbox,.reveal"); if (lb) { lb.remove(); return; }
+    var lb = document.querySelector(".lightbox,.reveal"); if (lb) { if (lb._shut) lb._shut(); else lb.remove(); return; }
     if (!sheet.hidden) closeDay();
   });
   function closeDay() { sheet.hidden = true; panel.innerHTML = ""; cur = null; document.body.style.overflow = ""; if (lastFocus) lastFocus.focus(); }
 
-  function ytSrc(id) { return "https://www.youtube-nocookie.com/embed/" + id + "?rel=0&modestbranding=1&playsinline=1"; }
+  function ytSrc(id) { return "https://www.youtube-nocookie.com/embed/" + id + "?rel=0&modestbranding=1&playsinline=1&cc_load_policy=1&cc_lang_pref=en&hl=en"; }
   function kalSrc(id) { return "https://www.kaltura.com/p/684682/embedPlaykitJs/uiconf_id/55674542?iframeembed=true&entry_id=" + id; }
   function frame(v) {
     var src = v.yt ? ytSrc(v.yt) : kalSrc(v.kal);
@@ -192,6 +193,16 @@
     if (day.quiz) labels.push("Quiz");
     return labels.join(" · ");
   }
+  /* Accessible poster: keyboard-zoomable image + expandable full poster text (WCAG 1.1.1, 1.4.5, 2.1.1). */
+  function posterAlt(f, alt) { var t = window.POSTER_TITLE && POSTER_TITLE[f]; return t ? "Poster: " + t + (POSTER_TEXT[f] ? ". Full poster text is available below the image." : "") : alt || ""; }
+  function posterText(f) {
+    var t = window.POSTER_TEXT && POSTER_TEXT[f]; if (!t) return "";
+    return '<details class="ptext"><summary>Read the poster text</summary><div>' + t + "</div></details>";
+  }
+  function zoomImg(f, alt, cls) { return '<img' + (cls ? ' class="' + cls + '"' : "") + ' src="' + esc(f) + '" alt="' + esc(posterAlt(f, alt)) + '" data-zoom tabindex="0" role="button" aria-label="Enlarge poster: ' + esc((window.POSTER_TITLE && POSTER_TITLE[f]) || alt || "image") + '">'; }
+  function posterFigure(poster) { return '<figure class="poster">' + zoomImg(poster.f, poster.alt) + posterText(poster.f) + "</figure>"; }
+  window.LIED_A11Y = { posterText: posterText, zoomImg: zoomImg };
+
   function previewPosters(day) {
     var posters = day.poster ? [day.poster] : [];
     (day.games || []).forEach(function (game) {
@@ -199,7 +210,7 @@
     });
     if (!posters.length) return "";
     return '<section class="preview-posters" aria-label="Mission posters"><h4>Explore the mission posters</h4><p>Choose a poster to open the full-size image.</p><div>' + posters.map(function (poster) {
-      return '<a href="' + esc(poster.f) + '" target="_blank" rel="noopener"><img src="' + esc(poster.f) + '" alt="' + esc(poster.alt) + '" loading="lazy"><span>Open full-size poster ↗</span></a>';
+      return '<div class="pp"><a href="' + esc(poster.f) + '" target="_blank" rel="noopener"><img src="' + esc(poster.f) + '" alt="' + esc(posterAlt(poster.f, poster.alt)) + '" loading="lazy"><span>Open full-size poster<span class="sr-only"> (opens in a new tab)</span> ↗</span></a>' + posterText(poster.f) + '</div>';
     }).join("") + '</div>' + docs(day.docs) + '</section>';
   }
 
@@ -241,7 +252,7 @@
         '<div class="regnote"><b>For teachers:</b> Some activities use the KnowBe4 teaching kit. <a href="' + CFG.kitUrl + '" target="_blank" rel="noopener">Teaching resources ↗</a></div></div>';
     }
     if (day.read) {
-      h += '<div class="step" id="s-read" style="--c:' + wc(day.w) + '">' + head("read", day.readTitle || "Read") + (day.poster ? '<img class="poster" src="' + day.poster.f + '" alt="' + esc(day.poster.alt) + '" data-zoom>' : "") + day.read + '<div class="clear"></div>' + (day.src ? '<p class="src">' + day.src + "</p>" : "") + docs(day.docs) + '<div class="row"><button class="btn" data-mark="read">I\'ve read this</button></div></div>';
+      h += '<div class="step" id="s-read" style="--c:' + wc(day.w) + '">' + head("read", day.readTitle || "Read") + (day.poster ? posterFigure(day.poster) : "") + day.read + '<div class="clear"></div>' + (day.src ? '<p class="src">' + day.src + "</p>" : "") + docs(day.docs) + '<div class="row"><button class="btn" data-mark="read">I\'ve read this</button></div></div>';
     }
     (day.games || []).forEach(function (g, i) {
       h += '<div class="step" id="s-g' + i + '" style="--c:' + wc(day.w) + '">' + head("g" + i, "Play: " + esc(g.title)) + '<div data-game="' + i + '"></div></div>';
@@ -358,8 +369,12 @@
   function toast(t) { var e = document.getElementById("toast"); e.textContent = t; e.hidden = false; clearTimeout(tt); tt = setTimeout(function () { e.hidden = true; }, 2200); }
   document.addEventListener("click", function (e) {
     var z = e.target.closest && e.target.closest("[data-zoom]"); if (!z) return;
-    var lb = document.createElement("div"); lb.className = "lightbox"; lb.setAttribute("role", "dialog"); lb.setAttribute("aria-label", "Enlarged image. Click to close.");
-    lb.innerHTML = '<img src="' + z.getAttribute("src") + '" alt="' + esc(z.getAttribute("alt") || "") + '">'; lb.onclick = function () { lb.remove(); }; document.body.appendChild(lb);
+    var back = document.activeElement;
+    var lb = document.createElement("div"); lb.className = "lightbox"; lb.setAttribute("role", "dialog"); lb.setAttribute("aria-modal", "true"); lb.setAttribute("aria-label", "Enlarged poster");
+    lb.innerHTML = '<button type="button" class="lb-x" aria-label="Close enlarged poster">×</button><img src="' + z.getAttribute("src") + '" alt="' + esc(z.getAttribute("alt") || "") + '">';
+    function shut() { lb.remove(); if (back && back.focus) back.focus(); }
+    lb.onclick = shut; lb.querySelector(".lb-x").onkeydown = function (e) { if (e.key === "Tab") e.preventDefault(); };
+    document.body.appendChild(lb); lb.querySelector(".lb-x").focus(); lb._shut = shut;
   });
   document.getElementById("todaybtn").onclick = function () {
     var tn = todayNum(), open = DAYS.filter(function (d) { return unlocked(d.d); });

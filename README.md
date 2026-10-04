@@ -87,3 +87,15 @@ All seven appear in lessons and upcoming-day previews. Supplied artwork is prese
 - `img/cyber-pigeon-round.webp`: mascot in the hero with a speech bubble.
 - `img/favicon-pigeon.png`: browser-tab icon.
 - Backup of the site before this change: `../../backups/Lied-Cybertober-2026_pre-neon_2026-10-04.zip`.
+
+## Accessibility (ADA / WCAG 2.1 AA), October 4
+
+Tested on all 31 lessons, the home page, previews, games and poster viewer with axe-core (WCAG 2.0/2.1/2.2 A and AA rules): 0 violations. Manual checks: keyboard-only play, focus trap and focus return in dialogs, Esc to close, reflow at 320px, contrast math for every theme color pair.
+
+- `js/poster-text.js`: full text of all 22 posters, shown under each poster as "Read the poster text". Update it whenever a poster changes.
+- Posters can be enlarged with the keyboard (Enter/Space). The enlarged view has a Close button and returns focus.
+- Word search: arrow keys + Enter/Space, plus a "Show where each word starts" hint list for screen-reader users.
+- YouTube videos open with captions on (`cc_load_policy=1`).
+- The calendar becomes a single list on phones (no sideways scrolling).
+- Mascot animation stops after 4 seconds; all motion is off with "reduce motion".
+- An Accessibility statement is at the bottom of the page (`#accessibility`).

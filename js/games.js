@@ -134,7 +134,7 @@ var GAMES = (function () {
     done = once(done);
     var need = data.items.filter(function (x) { return x.risk; }).length;
     var grid = '<div class="scene">' + data.items.map(function (x, i) { return '<button class="spot" data-i="' + i + '" aria-pressed="false">' + (x.ic ? '<span class="ic" aria-hidden="true">' + x.ic + "</span>" : "") + "<span>" + x.label + "</span></button>"; }).join("") + "</div>";
-    el.innerHTML = '<p class="gi">' + esc(data.prompt) + " There are " + need + ' to find.</p>' + (data.img ? '<div class="hunt"><img src="' + data.img + '" alt="' + esc(data.alt || "") + '" data-zoom>' + grid + "</div>" : data.html ? '<div class="hunt"><div>' + data.html + "</div>" + grid + "</div>" : grid) + '<div class="row"><button class="btn" data-c>Check my picks</button></div><div class="ffb" aria-live="polite"></div>';
+    el.innerHTML = '<p class="gi">' + esc(data.prompt) + " There are " + need + ' to find.</p>' + (data.img ? '<div class="hunt"><div>' + (window.LIED_A11Y ? LIED_A11Y.zoomImg(data.img, data.alt) + LIED_A11Y.posterText(data.img) : '<img src="' + data.img + '" alt="' + esc(data.alt || "") + '" data-zoom>') + '</div>' + grid + "</div>" : data.html ? '<div class="hunt"><div>' + data.html + "</div>" + grid + "</div>" : grid) + '<div class="row"><button class="btn" data-c>Check my picks</button></div><div class="ffb" aria-live="polite"></div>';
     el.querySelectorAll(".spot").forEach(function (s) { s.onclick = function () { if (s.disabled) return; s.classList.toggle("flag"); s.setAttribute("aria-pressed", s.classList.contains("flag")); }; });
     el.querySelector("[data-c]").onclick = function () {
       var hits = 0, wrong = 0, msgs = [];
@@ -197,8 +197,10 @@ var GAMES = (function () {
     var A = "ABCDEFGHIJKLMNOPRSTUVWY";
     for (r = 0; r < N; r++) for (c = 0; c < N; c++) if (!g[r][c]) g[r][c] = A[Math.floor(Math.random() * A.length)];
     el.innerHTML = '<p class="gi">' + esc(data.prompt) + '</p><div class="ws"><div class="wsg" style="grid-template-columns:repeat(' + N + ',auto)">' +
-      g.map(function (row, r) { return row.map(function (ch, c) { return '<span data-r="' + r + '" data-c="' + c + '">' + ch + "</span>"; }).join(""); }).join("") +
-      '</div><ul class="wsl">' + placed.map(function (p) { return '<li data-w="' + p.w + '">' + p.w + "</li>"; }).join("") + '</ul></div><div class="wfb" aria-live="polite"></div>';
+      g.map(function (row, r) { return row.map(function (ch, c) { return '<span role="button" tabindex="' + (r + c ? -1 : 0) + '" aria-label="Row ' + (r + 1) + ', column ' + (c + 1) + ': ' + ch + '" data-r="' + r + '" data-c="' + c + '">' + ch + "</span>"; }).join(""); }).join("") +
+      '</div><ul class="wsl" aria-label="Words to find">' + placed.map(function (p) { return '<li data-w="' + p.w + '">' + p.w + "</li>"; }).join("") + '</ul></div>' +
+      '<p class="gi ws-kb">Keyboard: use the arrow keys to move around the letters. Press Enter or Space on the first letter of a word, then on its last letter.</p>' +
+      '<details class="ws-help"><summary>Need help? Show where each word starts</summary><ul>' + placed.map(function (p) { var dir = { "0,1": "left to right", "1,0": "top to bottom", "1,1": "diagonally down to the right", "-1,1": "diagonally up to the right" }[p.d.join(",")] || "in a straight line"; return "<li>" + p.w + ": starts at row " + (p.r + 1) + ", column " + (p.c + 1) + ", reading " + dir + ".</li>"; }).join("") + '</ul></details><div class="wfb" aria-live="polite"></div>';
     var grid = el.querySelector(".wsg"), start = null, found = 0;
     function cell(e) { var t = e.target.closest ? e.target.closest("span[data-r]") : null; if (!t && e.touches) { var p = e.touches[0]; t = document.elementFromPoint(p.clientX, p.clientY); t = t && t.closest("span[data-r]"); } return t; }
     function path(a, b) {
@@ -210,12 +212,26 @@ var GAMES = (function () {
     function finish(endCell) {
       var cells = path(start, endCell), word = cells.map(function (s) { return s.textContent; }).join(""), rev = word.split("").reverse().join("");
       var li = el.querySelector('.wsl li[data-w="' + word + '"]:not(.fd)') || el.querySelector('.wsl li[data-w="' + rev + '"]:not(.fd)');
-      if (li && cells.length > 1) { cells.forEach(function (s) { s.classList.add("fd"); }); li.classList.add("fd"); found++; if (found === placed.length) { el.querySelector(".wfb").innerHTML = fb(true, "<b>All " + found + " words found.</b>"); done(); } }
+      if (li && cells.length > 1) { cells.forEach(function (s) { s.classList.add("fd"); s.setAttribute("aria-label", s.getAttribute("aria-label").replace(/( \(found\))?$/, " (found)")); }); li.classList.add("fd"); found++; if (found === placed.length) { el.querySelector(".wfb").innerHTML = fb(true, "<b>All " + found + " words found.</b>"); done(); } else el.querySelector(".wfb").textContent = "Found " + li.dataset.w + "! " + found + " of " + placed.length + " words."; }
+      else if (cells.length) el.querySelector(".wfb").textContent = "Not a word from the list. Try again.";
       clear(); start = null;
     }
     function down(e) { var t = cell(e); if (!t) return; e.preventDefault(); if (start && start !== t) { finish(t); return; } start = t; clear(); t.classList.add("sel"); }
     function move(e) { if (!start || !(e.buttons || e.touches)) return; var t = cell(e); if (!t) return; clear(); path(start, t).forEach(function (s) { s.classList.add("sel"); }); }
     function up(e) { if (!start) return; var t = e.changedTouches ? (function () { var p = e.changedTouches[0]; var x = document.elementFromPoint(p.clientX, p.clientY); return x && x.closest("span[data-r]"); })() : cell(e); if (t && t !== start) finish(t); }
+    grid.addEventListener("keydown", function (e) {
+      var t = e.target.closest && e.target.closest("span[data-r]"); if (!t) return;
+      var r = +t.dataset.r, c = +t.dataset.c, mv = { ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1] }[e.key];
+      if (mv) {
+        e.preventDefault(); var n = grid.querySelector('[data-r="' + Math.min(N - 1, Math.max(0, r + mv[0])) + '"][data-c="' + Math.min(N - 1, Math.max(0, c + mv[1])) + '"]');
+        t.tabIndex = -1; n.tabIndex = 0; n.focus(); if (start) { clear(); path(start, n).forEach(function (s) { s.classList.add("sel"); }); }
+      } else if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        if (!start) { start = t; clear(); t.classList.add("sel"); el.querySelector(".wfb").textContent = "Start letter " + t.textContent + " selected. Move to the last letter and press Enter."; }
+        else if (start === t) { clear(); start = null; el.querySelector(".wfb").textContent = "Selection cleared."; }
+        else finish(t);
+      } else if (e.key === "Escape" && start) { e.stopPropagation(); clear(); start = null; }
+    });
     grid.addEventListener("mousedown", down); grid.addEventListener("mousemove", move); document.addEventListener("mouseup", up);
     grid.addEventListener("touchstart", down, { passive: false }); grid.addEventListener("touchmove", function (e) { e.preventDefault(); move(e); }, { passive: false }); grid.addEventListener("touchend", up);
   }

@@ -504,3 +504,56 @@ html{scroll-behavior:smooth;scroll-padding-top:24px}body{font-size:17px}.wrap{ma
 @media(max-width:950px){.brand-logo{height:58px}.hero.hero-with-mascot{grid-template-columns:1fr 200px}.mascot-bubble{font-size:12px;left:-10px}}
 @media(max-width:760px){.brand-logo{height:52px}.band .brand{font-size:18px!important}[data-theme="neon"] .band{position:static}.hero-banner{margin-top:16px;border-radius:16px}.hero.hero-with-mascot{grid-template-columns:1fr}.hero-mascot{width:170px;justify-self:start;margin:28px 0 0 8px}.mascot-bubble{left:auto;right:-120px;top:-14px;transform:rotate(4deg);border-radius:14px 14px 2px 14px}}
 @media(prefers-reduced-motion:reduce){.hero-mascot img{animation:none}}
+
+/* ================================================================
+   ACCESSIBILITY LAYER (WCAG 2.1 / 2.2 AA) — 2026-10-04
+   ================================================================ */
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+/* 1.4.3 contrast: dark text on bright pink / purple / red fills */
+:root[data-theme="neon"]{--lock:#8f86c4}
+[data-theme="neon"] .filter.active{color:#0b0820}
+[data-theme="neon"] .hero-btn{color:#0b0820!important}
+[data-theme="neon"] .doc::before{color:#07051a}
+[data-theme="neon"] .pledge-icon{color:#0b0820}
+/* 2.4.7 / 2.4.11 visible focus on dark backgrounds */
+[data-theme="neon"] :focus-visible{outline:3px solid var(--sunshine)!important;outline-offset:3px;box-shadow:0 0 0 6px #0b0820}
+/* 2.2.2 motion: mascot bobs briefly, then stops (< 5 s) */
+.hero-mascot img{animation:bob 2s ease-in-out 2}
+/* posters: figure + full text */
+figure.poster{float:right;width:min(260px,42%);margin:0 0 12px 18px;border:0;cursor:auto}
+figure.poster img{display:block;width:100%;border-radius:10px;border:1px solid var(--line);cursor:zoom-in}
+.ptext{margin-top:8px;font-size:15px;text-align:left}
+.ptext summary{cursor:pointer;font-weight:700;color:var(--cyan,#22e4ff);padding:6px 0;min-height:24px}
+.ptext>div{margin-top:6px;padding:12px 14px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line);color:var(--ink);max-height:none}
+.ptext h5{font:700 15px/1.3 var(--f-display);margin:10px 0 4px;color:var(--sunshine)}
+.ptext h5:first-child{margin-top:0}
+.ptext p{margin:4px 0;max-width:none}.ptext ul{margin:4px 0;padding-left:1.2em}.ptext li{margin:3px 0}
+figure.poster .ptext[open]{width:100%}
+.preview-posters .pp{max-width:280px;width:100%}
+.preview-posters .pp a{max-width:none}
+.hunt>div>img{border-radius:8px;border:1px solid var(--line);cursor:zoom-in;display:block;width:100%}
+/* lightbox close button */
+.lb-x{position:fixed;top:14px;right:14px;width:48px;height:48px;border-radius:50%;border:2px solid #fff;background:#0b0820;color:#fff;font-size:28px;line-height:1;z-index:31;cursor:pointer}
+/* word search keyboard focus */
+.wsg span[role=button]{cursor:pointer}
+.wsg span:focus-visible{outline:3px solid var(--sunshine)!important;outline-offset:1px;position:relative;z-index:1}
+.ws-help{margin-top:10px;font-size:14.5px}.ws-help summary{cursor:pointer;font-weight:700;color:var(--cyan,#22e4ff)}
+/* weekday label: only shown in stacked phone list */
+.day .wd{display:none}
+/* 1.4.10 reflow: on narrow screens the calendar becomes a single list (no sideways scrolling) */
+@media(max-width:760px){
+  .calendar-weekdays{display:none}
+  .calendar-weekdays,.month-grid{min-width:0!important}
+  .month-grid{grid-template-columns:1fr!important;grid-auto-rows:auto!important;gap:10px}
+  .month-grid .day{grid-column:auto!important;grid-row:auto!important;min-height:0!important}
+  .day .wd{display:inline-block;font:600 12px var(--f-mono);color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+  .calendar-hint{display:none!important}
+  .calendar-scroll{overflow:visible;margin-inline:0;padding-inline:0}
+  figure.poster{float:none;width:100%;margin:0 0 12px}
+}
+@media(max-width:1100px) and (min-width:761px){.calendar-hint{display:block}}
+/* forced-colors (Windows High Contrast) support */
+@media (forced-colors:active){.day,.btn,.filter,.badge,.step,.rcard{border:1px solid CanvasText}.hero h1 span{color:LinkText;background:none;-webkit-background-clip:initial}}
+
+.a11y p,.a11y .clist{max-width:90ch}.a11y kbd{font:600 13px var(--f-mono);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;background:var(--surface-2)}
+@media(max-width:480px){.mascot-bubble{position:static;display:inline-block;transform:none;margin:0 0 8px;max-width:100%}.hero-mascot{margin-top:16px}}

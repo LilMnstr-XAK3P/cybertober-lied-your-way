@@ -1,4 +1,6 @@
-# Lied-Cybertober-2026
+# LIED Cybertober 2026
+
+Live site: https://lilmnstr-xak3p.github.io/cybertober-lied-your-way/ (GitHub repo `LilMnstr-XAK3P/cybertober-lied-your-way`, Pages from `main` / root). To update: commit and `git push` in this folder; the site redeploys in about a minute.
 
 A middle-school-friendly cybersecurity adventure with six custom earned badges, a full Sunday–Saturday monthly calendar, daily activity previews, progress tracking, collectible badges (Recruit, Ghost, Gadget, Lock N’ Key, Scout, and Cyber Defender), and a cyber-safety pledge. Includes filters for available and completed missions, responsive layouts, and an expandable resource library. The original project is untouched.
 
@@ -26,16 +28,9 @@ Progress is saved in this browser on this device. GitHub Pages does not provide 
 
 SCORM packaging is deferred until needed. The original optional LMS adapter remains in `js/scorm.js`; the standalone app uses its browser-storage fallback and requires no Canvas account or LMS.
 
-## Publish later on GitHub Pages
+## Publishing
 
-1. Create a repository named `Lied-Cybertober-2026` on your GitHub account.
-2. Commit this folder's contents with `index.html` at the repository root. Do not commit `dist/`.
-3. In repository **Settings → Pages**, choose **Deploy from a branch**, then **main** and **/(root)**.
-4. The site will be available at `https://YOUR-USERNAME.github.io/Lied-Cybertober-2026/` after deployment.
-
-Relative asset paths support a repository subpath. `.nojekyll` is included. Nothing has been published automatically.
-
-GitHub's setup documentation: https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site
+Published on GitHub Pages (see the top of this file). Do not commit `dist/` (it is in `.gitignore`).
 
 ## Edit next
 

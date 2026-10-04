@@ -317,7 +317,7 @@ details.cites[open] summary .src::after{content:" ▾"}
   .cert{position:fixed;inset:0;margin:0}
 }
 
-/* Lied Cybertober: approachable, readable adventure interface. */
+/* LIED Cybertober: approachable, readable adventure interface. */
 :root[data-theme="light"]{
  --brand:#6450d8;--sunshine:#fac969;--bg:#faf9f6;--surface:#fff;--surface-2:#f0edf8;--ink:#29243c;--muted:#696379;--line:#e7e2ee;--accent:#6047c8;--accent-ink:#fff;
  --w0:#796026;--w1:#237563;--w2:#7050bd;--w3:#a05a25;--w4:#386eaa;--boss:#a34572;--ok:#287256;--lock:#787283;--shadow:#34256c12;

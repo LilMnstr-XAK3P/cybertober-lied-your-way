@@ -356,7 +356,7 @@
   }
 
   function footer() {
-    var who = "Created by " + esc(CFG.author) + ", " + esc(CFG.authorTitle), disc = CFG.disclaimer;
+    var who = "Created by " + (CFG.authorUrl ? '<a href="' + esc(CFG.authorUrl) + '">' + esc(CFG.author) + "</a>" : esc(CFG.author)) + ", " + esc(CFG.authorTitle) + (CFG.coAuthor ? ", and " + esc(CFG.coAuthor) + ", " + esc(CFG.coAuthorTitle) : ""), disc = CFG.disclaimer;
     document.getElementById("credits").innerHTML = '<p class="byline">' + who + ' · <a href="#citations" data-cite>Sources &amp; citations</a></p><p>' + disc + "</p><p>Not affiliated with or endorsed by KnowBe4, CISA, NIST, the National Cybersecurity Alliance or the FTC. Their materials are adapted and credited for educational use and remain the property of their owners. Created October 1, 2026.</p>";
   }
   document.addEventListener("click", function (e) {

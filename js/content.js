@@ -15,9 +15,12 @@ var CONTENT = {
     passPct: 70,
     kitUrl: "https://www.knowbe4.com/resources/kits/cybersecurity-awareness-month",
     edition: "web",                  // "lms" = school learning app; "web" = GitHub Pages site (both with logos); "public" = no logos (set by build.py)
-    disclaimer: '<b>Made for curious minds.</b> Created by Lily Morningstar, Cybersecurity Instructor. An independent learning resource for middle school students.',
+    disclaimer: '<b>Made for curious minds.</b> An independent learning resource for middle school students. The site design and changes were Dean Myaskovskiy’s ideas.',
     author: "Lily Morningstar",
-    authorTitle: "Cybersecurity Instructor"
+    authorTitle: "Cybersecurity Instructor",
+    authorUrl: "https://lilmnstr-xak3p.github.io/portfolio/",
+    coAuthor: "Dean Myaskovskiy",
+    coAuthorTitle: "LIED STEM Academy 7th grade student"
   },
 
   weeks: {

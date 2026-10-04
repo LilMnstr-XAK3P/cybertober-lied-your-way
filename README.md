@@ -50,7 +50,7 @@ Future curriculum work can simplify the longer readings and review linked activi
 
 ## Original attribution
 
-Created by Lily Morningstar, Cybersecurity Instructor. Content includes credited adaptations and materials from KnowBe4, CISA, NIST, the National Cybersecurity Alliance, and the FTC; those materials remain the property of their owners. See the in-app Sources & Citations for details.
+Created by Lily Morningstar, Cybersecurity Instructor (https://lilmnstr-xak3p.github.io/portfolio/), and Dean Myaskovskiy, LIED STEM Academy 7th grade student, whose ideas shaped the site design and changes. Content includes credited adaptations and materials from KnowBe4, CISA, NIST, the National Cybersecurity Alliance, and the FTC; those materials remain the property of their owners. See the in-app Sources & Citations for details.
 
 The supplied badge artwork is included unchanged. The previous hero robot has been removed pending replacement artwork. Badge IDs and earning requirements remain unchanged, preserving existing progress.
 

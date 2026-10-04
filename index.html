@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en" data-theme="neon">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lied Cybertober 2026</title>
+<meta name="description" content="Lied Cybertober: a month of online safety missions, games and badges for middle school explorers.">
+<meta property="og:title" content="Lied Cybertober 2026">
+<meta property="og:description" content="31 days of cybersecurity lessons, games and badges for Cybersecurity Awareness Month.">
+<meta name="theme-color" content="#0b0820">
+<meta property="og:image" content="img/hero-cyber-kids.webp">
+<link rel="icon" type="image/png" href="img/favicon-pigeon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&display=swap">
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to missions</a>
+<header class="band"><div class="wrap">
+  <a class="brand" href="#"><img class="brand-logo" src="img/logo-pigeon.webp" alt="Cybersecurity Awareness for Middle School logo: a cyber pigeon in goggles giving a thumbs up" width="1536" height="1024"><span>Lied <b>Cybertober</b><small>YOUR DIGITAL ADVENTURE · 2026</small></span></a>
+  <nav aria-label="Main navigation"><a href="#adventure">Missions</a><a href="#badge-zone">My badges</a><a href="#resources">Explore more</a></nav>
+  <span class="season">OCT 01—31</span>
+</div></header>
+<main class="wrap" id="main">
+  <figure class="hero-banner">
+    <img src="img/hero-cyber-kids.webp" alt="Four middle school cyber heroes and a cyber pigeon in a neon city. Banner: Cybersecurity Awareness for Middle School. Stay safe online, be respectful, think critically, explore technology, make a difference." width="1672" height="941">
+  </figure>
+  <section class="hero hero-with-mascot" aria-labelledby="hero-title">
+    <div class="hero-copy"><span class="eyebrow">SMALL MISSIONS. BIG REAL-WORLD SKILLS.</span>
+      <h1 id="hero-title">Your next superpower?<br><span>Being cyber smart.</span></h1>
+      <p>Spot sneaky scams. Protect your passwords. Outsmart online tricks. A whole month of adventures is waiting for you.</p>
+      <a class="btn hero-btn" href="#adventure">Let's explore <span aria-hidden="true">↗</span></a><span class="hero-note">Play. Learn. Level up.</span>
+    </div>
+    <div class="hero-mascot"><img src="img/cyber-pigeon-round.webp" alt="Cyber pigeon mascot giving a thumbs up" width="1254" height="1254" loading="lazy"><span class="mascot-bubble">Ready, cyber hero? Let’s go!</span></div>
+  </section>
+  <div class="hello" id="hello"></div>
+
+  <div class="strip">
+    <div class="ring" role="img" id="ringlbl" aria-label="Course score 0 percent">
+      <svg width="118" height="118" viewBox="0 0 118 118" aria-hidden="true"><circle cx="59" cy="59" r="50" fill="none" stroke="var(--surface-2)" stroke-width="11"/><circle id="arc" cx="59" cy="59" r="50" fill="none" stroke="var(--sunshine)" stroke-width="11" stroke-linecap="round" stroke-dasharray="314.16" stroke-dashoffset="314.16"/></svg>
+      <div class="num"><b id="pct">0%</b><small>score</small></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="xp">0</b><span>XP earned</span></div>
+      <div class="stat"><b id="core">0 / 23</b><span>Missions completed</span></div>
+      <div class="stat"><b id="bon">0 / 8</b><span>Bonus adventures</span></div>
+      <div class="stat"><b id="passline">70%</b><span id="passlbl">To pass</span></div>
+      <div class="stat"><button class="btn" id="todaybtn">Continue my adventure →</button></div>
+    </div>
+    <div class="badge-zone" id="badge-zone"><div class="badge-heading"><b>Your badge collection</b><span>Small wins worth celebrating.</span></div><div class="badges" id="badges"></div></div>
+  </div>
+
+  <section class="mission" id="mission">
+    <div class="pledge-icon" aria-hidden="true">✌</div><div class="mtxt">
+      <span class="tag">Your first power-up · +50 XP</span><h2>Pause. Think. Ask for help.</h2>
+      <p>If something online feels wrong, I’ll pause and check with a trusted adult. Being cyber smart is a team sport.</p>
+    </div><div class="mact"><label class="chk"><input type="checkbox" id="regchk"> I’m in! Take the cyber pledge</label></div>
+  </section>
+  <section id="adventure" aria-labelledby="monthTitle">
+    <div class="month"><div><span class="eyebrow">YOUR OCTOBER QUEST</span><h2 id="monthTitle">October 2026</h2></div><p>Your whole month of cyber adventures.<br>Open any date to play or take a sneak peek.</p></div>
+    <div class="filters" role="group" aria-label="Filter missions"><button class="filter active" data-filter="all" aria-pressed="true">All missions</button><button class="filter" data-filter="open" aria-pressed="false">Ready to play</button><button class="filter" data-filter="done" aria-pressed="false">Completed</button><span>✦ Bonus missions are just for fun</span></div>
+    <div class="calendar-legend" id="calendar-legend" aria-label="Mission themes"></div>
+    <p class="calendar-hint" id="calendar-hint">On a small screen, swipe across the calendar to see every day of the week.</p>
+    <div class="calendar-scroll" tabindex="0" role="region" aria-label="Monthly challenge calendar" aria-describedby="calendar-hint"><div id="cal"></div></div><p id="empty-state" hidden>No missions here yet. Try “All missions” to explore what’s coming!</p>
+  </section>
+  <details class="resource-drawer" id="resources"><summary><span>🧭 Explore more</span><span>Extra resources for curious minds + grown-ups</span></summary><section class="res" id="library"></section></details>
+
+  <details class="res cites" id="citations"></details>
+</main>
+
+<footer><div class="wrap" id="credits"></div></footer>
+
+<div class="sheet" id="sheet" hidden><div class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="ptitle"></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="js/scorm.js"></script>
+<script src="js/content.js"></script>
+<script src="js/games.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
